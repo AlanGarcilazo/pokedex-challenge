@@ -180,3 +180,13 @@ El nombre del Pokémon no alcanza para demostrar que llegó el detalle, porque l
 El setup ajusta las señales de cancelación de Node y jsdom. Es una configuración del entorno de pruebas, no una modificación del comportamiento de producción.
 
 No presento estos tres casos como cobertura completa. El resto de los recorridos se revisó con comprobaciones manuales.
+
+## Limitaciones y mejoras futuras
+
+- Reducir el costo de la primera consulta por generación.
+- Incorporar virtualización si el volumen de tarjetas renderizadas afecta el rendimiento.
+- Definir una política de actualización por antigüedad de los datos.
+- Ampliar las pruebas de filtros, persistencia y reordenamiento.
+- Mantener los filtros al cambiar entre todas las secciones.
+- Evaluar soporte PWA si se necesita iniciar la aplicación sin conexión.
+- Considerar límites de almacenamiento y estrategias de limpieza de caché.
