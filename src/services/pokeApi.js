@@ -56,7 +56,7 @@ export const pokeApi = createApi({
   },
 
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_POKEAPI_URL,    
+    baseUrl: import.meta.env.VITE_POKEAPI_URL,
     timeout: 15000,
 
     cache: "no-cache",
@@ -75,6 +75,7 @@ export const pokeApi = createApi({
     "PokemonType",
     "Generation",
     "Species",
+    "GenerationPokemon",
   ],
 
   endpoints: (builder) => ({
@@ -213,6 +214,131 @@ export const pokeApi = createApi({
 
       providesTags: (_result, _error, generation) => [
         { type: "Generation", id: String(generation) },
+      ],
+    }),
+
+    getGenerationPokemon: builder.query({
+      keepUnusedDataFor: 60 * 60,
+
+      queryFn: async (generation, api, _extraOptions, baseQuery) => {
+        if (!Number.isInteger(generation) || generation < 1 || generation > 9) {
+          return {
+            error: {
+              status: "CUSTOM_ERROR",
+              error: "La generación debe estar entre 1 y 9.",
+            },
+          };
+        }
+
+        const cancelled = {
+          error: {
+            status: "CUSTOM_ERROR",
+            error: "La consulta fue cancelada.",
+          },
+        };
+
+        try {
+          if (api.signal.aborted) {
+            return cancelled;
+          }
+
+          const generationResponse = await baseQuery(
+            `generation/${generation}`,
+          );
+
+          if (generationResponse.error) {
+            return { error: generationResponse.error };
+          }
+
+          const species = generationResponse.data.pokemon_species;
+
+          
+          const batches = Array.from(
+            { length: Math.ceil(species.length / 4) },
+            (_, index) => species.slice(index * 4, index * 4 + 4),
+          );
+
+          
+          const result = await batches.reduce(
+            async (previousBatch, batch) => {
+              const previous = await previousBatch;
+
+              if (previous.error) {
+                return previous;
+              }
+
+              if (api.signal.aborted) {
+                return cancelled;
+              }
+
+              const responses = await Promise.all(
+                batch.map((reference) =>
+                  baseQuery(`pokemon-species/${reference.name}`),
+                ),
+              );
+
+              if (api.signal.aborted) {
+                return cancelled;
+              }
+
+              const failedResponse = responses.find(
+                (response) => response.error,
+              );
+
+              if (failedResponse) {
+                return { error: failedResponse.error };
+              }
+
+              const pokemon = responses.flatMap((response) =>
+                response.data.varieties.map((variety) =>
+                  toReference(variety.pokemon),
+                ),
+              );
+
+              return {
+                data: [...previous.data, ...pokemon],
+              };
+            },
+            Promise.resolve({ data: [] }),
+          );
+
+          if (result.error) {
+            return result;
+          }
+
+          if (api.signal.aborted) {
+            return cancelled;
+          }
+          
+          const uniquePokemon = new Map(
+            result.data.map((pokemon) => [pokemon.name, pokemon]),
+          );
+
+          return {
+            data: {
+              generation,
+              speciesCount: species.length,
+              results: Array.from(uniquePokemon.values()),
+              isComplete: true,
+            },
+          };
+        } catch (error) {
+          return {
+            error: {
+              status: "CUSTOM_ERROR",
+              error:
+                error.message ??
+                "No pudimos preparar los Pokémon de la generación.",
+            },
+          };
+        }
+      },
+
+      providesTags: (_result, _error, generation) => [
+        {
+          type: "GenerationPokemon",
+          id: String(generation),
+        },
       ],
     }),
 
