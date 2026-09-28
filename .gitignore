@@ -1,0 +1,28 @@
+# Dependencias y compilación
+node_modules/
+dist/
+dist-ssr/
+
+# Logs
+*.log
+
+# Configuración local
+*.local
+.env
+.env.*
+!.env.example
+
+# Reportes de pruebas
+coverage/
+
+# Editor y sistema operativo
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

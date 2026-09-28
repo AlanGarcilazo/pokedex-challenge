@@ -1,0 +1,52 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #172033;
+  background: #f3f5f9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  padding: 0.55rem 0.85rem;
+  border: 1px solid #bcc6d6;
+  border-radius: 0.5rem;
+  color: inherit;
+  background: white;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: #edf2fa;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+input {
+  min-width: 0;
+  padding: 0.55rem;
+  border: 1px solid #bcc6d6;
+  border-radius: 0.5rem;
+}
+
+:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
