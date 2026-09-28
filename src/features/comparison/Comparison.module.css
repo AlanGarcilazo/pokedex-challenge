@@ -1,0 +1,164 @@
+.form {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.selector,
+.summary,
+.stats {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid #dce3ee;
+  border-radius: 0.8rem;
+  background: white;
+}
+
+.selector {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.selector legend {
+  padding: 0 0.3rem;
+  font-weight: 700;
+}
+
+.selector input,
+.selector select {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+}
+
+.selector select {
+  padding: 0.5rem;
+  border: 1px solid #bcc6d6;
+  border-radius: 0.5rem;
+  color: inherit;
+  background: white;
+}
+
+.hint {
+  margin: 0.4rem 0;
+  color: #526079;
+  font-size: 0.9rem;
+}
+
+.error {
+  margin: 0;
+  color: #b42318;
+}
+
+.feedback {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  border-left: 4px solid #a6630a;
+  border-radius: 0.3rem;
+  background: #fff5df;
+}
+
+.feedback p {
+  margin-top: 0;
+}
+
+.result {
+  margin-top: 2rem;
+}
+
+.summary {
+  overflow-wrap: anywhere;
+}
+
+.summary h3 {
+  margin-top: 0;
+  text-transform: capitalize;
+}
+
+.image,
+.skeleton {
+  width: min(100%, 240px);
+  margin: 1rem auto;
+}
+
+.skeleton {
+  aspect-ratio: 1;
+  border-radius: 0.6rem;
+  background: #dce3ee;
+  animation: pulse 1.2s ease-in-out infinite alternate;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.stats {
+  margin-top: 1rem;
+}
+
+.stats h3 {
+  margin-top: 0;
+}
+
+.statRow {
+  padding: 0.9rem 0;
+  border-top: 1px solid #dce3ee;
+}
+
+.statRow h4 {
+  margin: 0 0 0.5rem;
+}
+
+.statValues {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.statValue {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.35rem;
+  overflow-wrap: anywhere;
+}
+
+.statValue meter {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 1.25rem;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
