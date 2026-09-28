@@ -1,4 +1,3 @@
-// El valor coincide con PokeAPI; label es lo que mostramos al usuario.
 export const TYPE_OPTIONS = [
   { value: 'normal', label: 'Normal', color: '#909078' },
   { value: 'fire', label: 'Fuego', color: '#dd6b20' },
