@@ -1,0 +1,58 @@
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.heading h1,
+.heading p {
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.orderButtons {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.orderButtons button {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.25rem;
+  font-size: 1.3rem;
+}
+
+.toggle {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+@media (max-width: 360px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

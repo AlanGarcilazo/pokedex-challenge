@@ -8,6 +8,7 @@ import {
   QueryStatus,
   TypeBadges,
 } from './PokemonUI';
+import TeamToggleButton from '../team/TeamToggleButton';
 import { STAT_LABELS } from './pokemonOptions';
 import styles from './Pokemon.module.css';
 
@@ -17,12 +18,28 @@ const numberFormatter = new Intl.NumberFormat('es-AR', {
 
 function DetailContent({ pokemon }) {
   const [selectedImage, setSelectedImage] = useState('artwork');
-  
+
   const availableImages = [
-    { key: 'artwork', label: 'Principal', src: pokemon.images.artwork },
-    { key: 'front', label: 'Frente', src: pokemon.images.front },
-    { key: 'back', label: 'Espalda', src: pokemon.images.back },
-    { key: 'shiny', label: 'Shiny', src: pokemon.images.shiny },
+    {
+      key: 'artwork',
+      label: 'Principal',
+      src: pokemon.images.artwork,
+    },
+    {
+      key: 'front',
+      label: 'Frente',
+      src: pokemon.images.front,
+    },
+    {
+      key: 'back',
+      label: 'Espalda',
+      src: pokemon.images.back,
+    },
+    {
+      key: 'shiny',
+      label: 'Shiny',
+      src: pokemon.images.shiny,
+    },
     {
       key: 'backShiny',
       label: 'Shiny de espalda',
@@ -41,6 +58,8 @@ function DetailContent({ pokemon }) {
       </p>
 
       <h1>{pokemon.name.replaceAll('-', ' ')}</h1>
+
+      <TeamToggleButton id={pokemon.id} name={pokemon.name} />
 
       <div className={styles.detailGrid}>
         <section aria-label="Imágenes del Pokémon">
@@ -71,6 +90,7 @@ function DetailContent({ pokemon }) {
 
         <section aria-label="Información del Pokémon">
           <h2>Tipos</h2>
+
           <TypeBadges types={pokemon.types} />
 
           <h2>Medidas</h2>
@@ -112,7 +132,6 @@ function DetailContent({ pokemon }) {
                 <li key={stat.name}>
                   <span>{label}</span>
 
-                  
                   <meter
                     min="0"
                     max="255"
@@ -173,7 +192,6 @@ export default function PokemonDetailPage() {
     );
   }
 
-  
   const status = error?.originalStatus ?? error?.status;
 
   return (
@@ -220,7 +238,6 @@ export default function PokemonDetailPage() {
             {isFetching ? 'Actualizando...' : 'Actualizar detalle'}
           </button>
 
-          
           <DetailContent key={data.id} pokemon={data} />
         </>
       )}

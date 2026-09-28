@@ -1,18 +1,18 @@
-import {
-  Link,
-  NavLink,
-  Route,
-  Routes,
-  useLocation,
-} from 'react-router-dom';
-import ConnectionStatus from './features/status/ConnectionStatus';
-import CatalogPage from './features/pokemon/CatalogPage';
-import PokemonDetailPage from './features/pokemon/PokemonDetailPage';
-import { EmptyState } from './features/pokemon/PokemonUI';
-import styles from './App.module.css';
+import { useSelector } from "react-redux";
+import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom";
+import ConnectionStatus from "./features/status/ConnectionStatus";
+import CatalogPage from "./features/pokemon/CatalogPage";
+import PokemonDetailPage from "./features/pokemon/PokemonDetailPage";
+import { EmptyState } from "./features/pokemon/PokemonUI";
+import TeamPage from "./features/team/TeamPage";
+import { selectTeamIds, TEAM_LIMIT } from "./features/team/teamSlice";
+import ToastViewport from "./features/notifications/ToastViewport";
+import styles from "./App.module.css";
+import ComparisonPage from "./features/comparison/ComparisonPage";
 
 export default function App() {
   const location = useLocation();
+  const teamIds = useSelector(selectTeamIds);
 
   function getNavClass({ isActive }) {
     return isActive ? styles.active : undefined;
@@ -28,7 +28,7 @@ export default function App() {
 
           <nav className={styles.nav} aria-label="Navegación principal">
             <NavLink
-              to={{ pathname: '/', search: location.search }}
+              to={{ pathname: "/", search: location.search }}
               end
               className={getNavClass}
             >
@@ -36,7 +36,7 @@ export default function App() {
             </NavLink>
 
             <NavLink to="/equipo" className={getNavClass}>
-              Mi equipo
+              Mi equipo ({teamIds.length}/{TEAM_LIMIT})
             </NavLink>
 
             <NavLink to="/comparar" className={getNavClass}>
@@ -52,30 +52,11 @@ export default function App() {
         <Routes>
           <Route path="/" element={<CatalogPage />} />
 
-          <Route
-            path="/pokemon/:id"
-            element={<PokemonDetailPage />}
-          />
-          
-          <Route
-            path="/equipo"
-            element={
-              <section>
-                <h1>Mi equipo</h1>
-                <p>Esta sección está en preparación.</p>
-              </section>
-            }
-          />
+          <Route path="/pokemon/:id" element={<PokemonDetailPage />} />
 
-          <Route
-            path="/comparar"
-            element={
-              <section>
-                <h1>Comparar Pokémon</h1>
-                <p>Esta sección está en preparación.</p>
-              </section>
-            }
-          />
+          <Route path="/equipo" element={<TeamPage />} />
+
+          <Route path="/comparar" element={<ComparisonPage />} />
 
           <Route
             path="*"
@@ -90,6 +71,8 @@ export default function App() {
           />
         </Routes>
       </main>
+
+      <ToastViewport />
     </>
   );
 }

@@ -2,18 +2,20 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { useGetPokemonByNameQuery } from '../../services/pokeApi';
 import { PokemonImage, TypeBadges } from './PokemonUI';
+import TeamToggleButton from '../team/TeamToggleButton';
 import styles from './Pokemon.module.css';
 
 export default function PokemonCard({ pokemon }) {
   const location = useLocation();
 
-  
   const {
     currentData: data,
     isFetching,
     isError,
     refetch,
   } = useGetPokemonByNameQuery(String(pokemon.id));
+
+  const displayName = data?.name ?? pokemon.name;
 
   return (
     <article className={styles.card}>
@@ -32,7 +34,7 @@ export default function PokemonCard({ pokemon }) {
         ) : (
           <PokemonImage
             src={data?.images.front}
-            alt={pokemon.name}
+            alt={displayName}
           />
         )}
 
@@ -40,7 +42,7 @@ export default function PokemonCard({ pokemon }) {
           #{String(pokemon.id).padStart(3, '0')}
         </p>
 
-        <h2>{pokemon.name.replaceAll('-', ' ')}</h2>
+        <h2>{displayName.replaceAll('-', ' ')}</h2>
       </Link>
 
       {data && <TypeBadges types={data.types} />}
@@ -70,6 +72,8 @@ export default function PokemonCard({ pokemon }) {
           </button>
         </div>
       )}
+
+      <TeamToggleButton id={pokemon.id} name={displayName} />
     </article>
   );
 }
