@@ -236,4 +236,26 @@ La suite no cubre automáticamente toda la aplicación. Persistencia, filtros, n
 
 El equipo se guarda por navegador y origen; no existe sincronización entre dispositivos.
 
-El deploy queda fuera del alcance de esta entrega.
+## Publicación en Netlify
+
+La configuración de compilación y navegación está definida en `netlify.toml`.
+
+- Directorio base: raíz del repositorio.
+- Rama de producción: `master`.
+- Comando de compilación: `npm run build`.
+- Directorio de publicación: `dist`.
+- Node: `24.18.0`.
+- npm: `11.16.0`.
+
+Antes de compilar, configurar en Netlify la variable:
+
+`VITE_POKEAPI_URL=https://pokeapi.co/api/v2/`
+
+La variable se incorpora durante la compilación. Cambiar su valor requiere
+generar y publicar un nuevo build.
+
+Las rutas de React Router utilizan una reescritura hacia `index.html`,
+para permitir navegación directa y recargas.
+
+La persistencia pertenece al navegador y al origen del sitio. Los datos
+guardados en localhost no se transfieren al dominio publicado.
